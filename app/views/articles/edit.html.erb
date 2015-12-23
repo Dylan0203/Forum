@@ -1,0 +1,5 @@
+<%= form_for @article, :url => article_path(@article) do |f| %>
+   <%= render :partial => 'form', :locals => { :f => f } %>
+
+    <%= f.submit "Update" %>
+<% end %>

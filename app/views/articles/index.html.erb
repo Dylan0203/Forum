@@ -1,0 +1,13 @@
+<h1>首頁-文章列表</h1>
+
+
+<% @articles.each do |a| %>
+
+<%= a.topic %>
+<%= link_to "Show Topic", article_path(a) %>
+<%= link_to "Edit Topic", edit_article_path(a) %>
+<%= link_to "Delete Topic", article_path(a), :method => :delete, :data => { :confirm => "Are you sure?" } %>
+<hr>
+<% end %>
+
+<p><%= link_to "Create New Topic", new_article_path %></p>
