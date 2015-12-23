@@ -9,5 +9,5 @@
 <%= link_to "Delete Topic", article_path(a), :method => :delete, :data => { :confirm => "Are you sure?" } %>
 <hr>
 <% end %>
-
+<p><%= paginate @articles %></p>
 <p><%= link_to "Create New Topic", new_article_path %></p>
