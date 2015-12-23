@@ -1,3 +1,16 @@
+
+
+
+<% if @article.errors.any? %>
+      <ul>
+      <% @article.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+<% end %>
+
+
+
 <%= f.label :topic, "Topic" %>
 <%= f.text_field :topic %>
 

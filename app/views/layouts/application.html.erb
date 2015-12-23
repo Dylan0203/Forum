@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Forum</title>
+  <title><%= @page_title || 'Forum' %></title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
-
+  <% if flash[:notice].present? %>
+    <p style="color: green"><%= flash[:notice] %></p>
+  <% end %>
+  <% if flash[:alert].present? %>
+    <p style="color: red"><%= flash[:alert] %></p>
+  <% end %>
   <% if current_user %>
         <%= link_to('登出', destroy_user_session_path, :method => :delete) %> |
         <%= link_to('修改密碼', edit_registration_path(:user)) %>
