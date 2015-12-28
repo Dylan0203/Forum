@@ -7,9 +7,13 @@
     </tr>
     <tr>
       <td>
-        <% @article.categories.each do |c| %>
-          <%= c.name %>
-        <% end %>
+        <ul>
+          <% @article.categories.each do |c| %>
+            <li>
+              <%= c.name %>
+            </li>
+          <% end %>
+        </ul>
       </td>
       <td><%= simple_format(@article.content) %></td>
     </tr>
