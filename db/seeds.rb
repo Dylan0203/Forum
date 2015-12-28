@@ -7,10 +7,13 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
+Category.delete_all
+User.delete_all
+
 Category.create!( :name => "Java")
 Category.create!( :name => "JavaScrpit")
 Category.create!( :name => "Perl")
 Category.create!( :name => "C#")
 Category.create!( :name => "C++")
 
-User.Create!(:email => "dylanmail0203@gmail.com", :first_name => "Dylan", :last_name => "Lin", :password => "12345678", :role => "admin")
+User.create!(:email => "dylanmail0203@gmail.com", :first_name => "Dylan", :last_name => "Lin", :password => "12345678", :role => "admin")
