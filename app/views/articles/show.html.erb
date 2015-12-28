@@ -1,21 +1,45 @@
-
 <h1><%= @article.topic %></h1>
-<h4>類別： </h4>
-<% @article.categories.each do |c| %>
-  <p><%= c.name %></p>
-<% end %>
-<p>詳細內容： <%= simple_format(@article.content) %></p>
+
+<table class="table">
+    <tr>
+      <th>類別</th>
+      <th>詳細內容</th>
+    </tr>
+    <tr>
+      <td>
+        <% @article.categories.each do |c| %>
+          <%= c.name %>
+        <% end %>
+      </td>
+      <td><%= simple_format(@article.content) %></td>
+    </tr>
+</table>
 
 <hr>
 <p>Here to show Comments:</p>
 
-<% @comments.each do |cm| %>
-<p><%= cm.reply %></p>
-<p>by: <%= cm.user.try(:email) %></p>
-<p>at <%= cm.updated_at.to_s(:short) %></p>
-<p><%= link_to "Edit", article_path(@article, :comment_id => cm) %></p>
-<p><%= link_to "delete", article_comment_path(@article, cm), :method => :delete %></p>
-<% end %>
+
+
+<table class="table">
+  <tr>
+    <th>回覆內容</th>
+    <th>回覆者</th>
+    <th>時間</th>
+    <th>操作</th>
+  </tr>
+  <% @comments.each do |cm| %>
+  <tr>
+    <td><%= simple_format(cm.reply) %></td>
+    <td><%= cm.user.display_name %></td>
+    <td><%= cm.updated_at.to_s(:short) %></td>
+    <td>
+      <%= link_to "Edit", article_path(@article, :comment_id => cm), :class => "btn btn-info" %>
+      <%= link_to "delete", article_comment_path(@article, cm), :method => :delete, :class => "btn btn-danger" %>
+    </td>
+  </tr>
+  <% end %>
+</table>
+
 
 <%if params[:comment_id] %>
   <% url = article_comment_path(@article, @comment) %>
@@ -25,9 +49,9 @@
 
 <%= form_for @comment, :url => url do |f| %> 
 
-<%= f.label :reply, "reply" %>
-<%= f.text_area :reply %>
+<%= f.label :reply, "回覆" %>
+<%= f.text_area :reply, :class => "form-control" %>
 <%= f.submit "Send" %>
 <% end %>
 
-<p><%= link_to 'Back to index', articles_path %></p>
+<p><%= link_to '回首頁', root_path %></p>
