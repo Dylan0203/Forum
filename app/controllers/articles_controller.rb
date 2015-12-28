@@ -1,5 +1,6 @@
 class ArticlesController < ApplicationController
 
+  before_action :authenticate_user!, :except => [:index, :show]
 
   before_action :set_article, :only => [ :show, :edit, :update, :destroy ]
 
@@ -13,7 +14,11 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    @article = Article.new(article_params)
+    #@article = Article.new(article_params)
+    #@article.user_id = current_user.id
+    
+    @article = current_user.articles.new(article_params)
+
     if @article.save
       redirect_to :action => :index
       flash[:notice] = "Article was successfully created"
@@ -24,6 +29,14 @@ class ArticlesController < ApplicationController
 
   def show
     @page_title = @article.topic
+    @comments = @article.comments
+
+    if params[:comment_id]
+      @comment = Comment.find(params[:comment_id])
+    else
+      @comment = Comment.new
+    end
+
   end
 
   def edit
@@ -32,7 +45,7 @@ class ArticlesController < ApplicationController
 
   def update
     if @article.update(article_params)
-      redirect_to :action => :show, :id => @article
+      redirect_to article_path(@article) #:action => :show, :id => @article
       flash[:notice] = "Article was successfully updated"
     else
       render :action => :edit 
@@ -52,6 +65,6 @@ class ArticlesController < ApplicationController
   end
 
   def article_params
-    params.require(:article).permit(:topic, :content)
+    params.require(:article).permit(:topic, :content, :category_ids => [] )
   end
 end

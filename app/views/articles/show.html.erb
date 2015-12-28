@@ -1,4 +1,33 @@
 
 <h1><%= @article.topic %></h1>
-<p><%= simple_format(@article.content) %></p>
+<h4>類別： </h4>
+<% @article.categories.each do |c| %>
+  <p><%= c.name %></p>
+<% end %>
+<p>詳細內容： <%= simple_format(@article.content) %></p>
+
+<hr>
+<p>Here to show Comments:</p>
+
+<% @comments.each do |cm| %>
+<p><%= cm.reply %></p>
+<p>by: <%= cm.user.try(:email) %></p>
+<p>at <%= cm.updated_at.to_s(:short) %></p>
+<p><%= link_to "Edit", article_path(@article, :comment_id => cm) %></p>
+<p><%= link_to "delete", article_comment_path(@article, cm), :method => :delete %></p>
+<% end %>
+
+<%if params[:comment_id] %>
+  <% url = article_comment_path(@article, @comment) %>
+<% else %>
+  <% url = article_comments_path(@article) %>
+<% end %>
+
+<%= form_for @comment, :url => url do |f| %> 
+
+<%= f.label :reply, "reply" %>
+<%= f.text_area :reply %>
+<%= f.submit "Send" %>
+<% end %>
+
 <p><%= link_to 'Back to index', articles_path %></p>

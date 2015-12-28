@@ -1,13 +1,42 @@
 <h1>首頁-文章列表</h1>
 
 
-<% @articles.each do |a| %>
+<table class="table table-striped">
 
-<%= a.topic %>
-<%= link_to "Show Topic", article_path(a) %>
-<%= link_to "Edit Topic", edit_article_path(a) %>
-<%= link_to "Delete Topic", article_path(a), :method => :delete, :data => { :confirm => "Are you sure?" } %>
-<hr>
-<% end %>
+
+  <tr>
+    <th>文章標題</th>
+    <th>發佈者</th>
+    <th>回覆數</th>
+    <th>操作</th>
+  </tr>
+
+  <% @articles.each do |a| %>
+  <tr>
+    <td>
+        <%= link_to "#{a.topic}", article_path(a), :class => "btn btn-default btn-block" %>
+    </td>
+    <td>
+      by: <%= a.user.display_name %>
+    </td>
+    <td><%= a.comments.size %></td> 
+    <td>
+      <div class="btn-group">
+  <button type="button" class="btn btn-default"><%= link_to "內容與其他", article_path(a) %></button>
+  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span class="caret"></span>
+    <span class="sr-only">Toggle Dropdown</span>
+  </button>
+  <ul class="dropdown-menu">
+    <li><%= link_to "Show Topic", article_path(a), :class => "btn btn-primary" %></li>
+    <li><%= link_to "Edit Topic", edit_article_path(a), :class => "btn btn-default" %></li>
+    <li><%= link_to "Delete Topic", article_path(a), :method => :delete, :data => { :confirm => "Are you sure?" }, :class => "btn btn-danger" %></li>
+  </ul>
+</div>
+    </td>
+  </tr>
+  <% end %>
+</table>
+
 <p><%= paginate @articles %></p>
-<p><%= link_to "Create New Topic", new_article_path %></p>
+<p><%= link_to "Create New Topic", new_article_path, :class => "btn btn-primary" %></p>

@@ -7,23 +7,41 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <% if flash[:notice].present? %>
-    <p style="color: green"><%= flash[:notice] %></p>
-  <% end %>
-  <% if flash[:alert].present? %>
-    <p style="color: red"><%= flash[:alert] %></p>
-  <% end %>
-  <% if current_user %>
-        <%= link_to('登出', destroy_user_session_path, :method => :delete) %> |
-        <%= link_to('修改密碼', edit_registration_path(:user)) %>
+
+  
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <% if flash[:notice].present? %>
+        <p style="color: green"><%= flash[:notice] %></p>
+      <% end %>
+      <% if flash[:alert].present? %>
+        <p style="color: red"><%= flash[:alert] %></p>
+      <% end %>
+
+
+    <ul class="nav nav-pills">
+      <li><%= link_to "Forum", root_path %></li>
+      <li>
+        <%#= link_to "About", about_path %>
+      </li>
+
+    <% if current_user %>
+        <li><%= link_to('登出', destroy_user_session_path, :method => :delete) %></li>
+        <li><%= link_to('修改密碼', edit_registration_path(:user)) %></li>
     <% else %>
-        <%= link_to('註冊', new_registration_path(:user)) %> |
-        <%= link_to('登入', new_session_path(:user)) %>
+        <li><%= link_to('註冊', new_registration_path(:user)) %></li>
+        <li><%= link_to('登入', new_session_path(:user)) %></li>
     <% end %>
+        <% if current_user %>
+        <li><%= link_to "Hi! #{current_user.display_name}" %></li>
+        <% end %>
+    </ul>
+    <%= yield %>
 
-<%= yield %>
-
-
-
+      <%= link_to "admin", admin_articles_path %>
+      </div>
+      </div>
+  </div>  
 </body>
 </html>
