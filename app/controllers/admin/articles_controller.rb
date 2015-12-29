@@ -1,6 +1,6 @@
 class Admin::ArticlesController < ApplicationController
 
-  before_action :authenticate
+  before_action :authenticate_user!
 
   layout "admin"
 

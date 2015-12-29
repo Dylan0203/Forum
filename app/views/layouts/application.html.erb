@@ -24,7 +24,7 @@
     <ul class="nav nav-pills">
       <li><%= link_to "Forum", root_path %></li>
       <li>
-        <%#= link_to "About", about_path %>
+        <%= link_to "About", about_path %>
       </li>
 
     <% if current_user %>
@@ -40,8 +40,9 @@
         <% end %>
     </ul>
     <%= yield %>
-
-      <%= link_to "admin", admin_articles_path %>
+      <% if current_user.present? && current_user.role == "admin" %>
+        <%= link_to "你是管理者，快來快來管一下", admin_articles_path %>
+      <% end %>
       </div>
       </div>
   </div>  

@@ -4,6 +4,11 @@ class ArticlesController < ApplicationController
 
   before_action :set_article, :only => [ :show, :edit, :update, :destroy ]
 
+  def about
+    
+  end
+
+
   def index
     @articles = Article.order("id DESC").page(params[:page]).per(5)
     #@articles = Article.all
