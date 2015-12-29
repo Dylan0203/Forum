@@ -1,18 +1,14 @@
-<h1>Articles Admin Page!</h1>
-
-<%#=  render :partial => "articles/articlelist", :locals => { :articles => @articles } %>
-
-
 <table class="table table-striped">
 
   <tr>
     <th>文章標題</th>
     <th>發佈者</th>
     <th>回覆數</th>
-      
+      <% if current_user.present? && current_user %>
     <th>操作</th>
-    
-      
+    <% else %>
+    <th></th>
+      <% end %>
   </tr>
 
   <% @articles.each do |a| %>
@@ -26,6 +22,7 @@
     <td><%= a.comments.size %></td>
     
     <td>
+      <% if current_user.present? && current_user.id == a.user_id %>
     
         <div class="btn-group">
           <button type="button" class="btn btn-default"><%= link_to "內容與其他", article_path(a) %></button>
@@ -39,7 +36,7 @@
             <li><%= link_to "Delete Topic", article_path(a), :method => :delete, :data => { :confirm => "Are you sure?" }, :class => "btn btn-danger" %></li>
           </ul>
         </div>
-      
+      <% end %>
     </td>
 
   </tr>
