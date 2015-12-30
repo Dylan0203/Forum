@@ -18,7 +18,7 @@
   <% @articles.each do |a| %>
   <tr>
     <td>
-        <%= link_to "#{a.topic}", article_path(a), :class => "btn btn-default btn-block" %>
+        <%= link_to a.topic, article_path(a), :class => "btn btn-default btn-block" %>
     </td>
     <td>
       by: <%= a.user.display_name %>

@@ -1,9 +1,19 @@
 <table class="table table-striped">
 
+  <%= form_tag articles_path, :method => :get do %>
+  <%= text_field_tag "keyword" %>
+    <%= submit_tag "Search" %>
+  <% end %>
+  
+  <%= link_to 'Sort by Name', articles_path( :order => "topic") %>
+  <%= link_to 'Sort by Default', articles_path %>
+
   <tr>
     <th>文章標題</th>
     <th>發佈者</th>
+    <th>文章點擊數</th>
     <th>回覆數</th>
+
       <% if current_user %>
     <th>操作</th>
     <% else %>
@@ -18,6 +28,8 @@
     <td>
       by: <%= link_to a.user.display_name, profile_path( a.user ) %>
     </td>
+
+    <td><%= a.view %></td>
     <td><%= a.comments.size %></td>
     
     <td>

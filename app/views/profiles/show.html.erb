@@ -1,0 +1,52 @@
+<% if current_user.present? %>
+  <h1>Hi <%= current_user.display_name %></h1>
+<% end %>
+
+<p>姓：<%= @profile.first_name %></p>
+<p>名：<%= @profile.last_name %></p>
+<p>電話號碼：<%= @profile.phone %></p>
+<p>自我介紹：<%= @profile.description %></p>
+<p><%= @user.display_name %> 寫過的文章:</p>
+<ul>
+<% @articles.each do |d| %>
+
+  <li><%= link_to d.topic, article_path(d) %></li>
+
+<% end %>
+</ul>
+<p><%= @user.display_name %> 回覆過的文章:</p>
+<ul>
+<% @reply.each do |c| %>
+
+  <li><%= link_to c.topic, article_path(c) %></li>
+
+<% end %>
+</ul>
+<hr>
+
+<% if current_user && current_user == @user %>
+    <%= form_for @profile, :url => profile_path(@user) do |f| %>
+
+    <div class="form_group">
+      <%= f.label :last_name, "姓" %>
+      <%= f.text_field :last_name, :required => true, :class => "form-control" %>
+    </div>
+
+    <div class="form_group">
+      <%= f.label :first_name, "名" %>
+      <%= f.text_field :first_name, :required => true, :class => "form-control" %>
+    </div>
+
+    <div class="form_group">
+      <%= f.label :phone, "Phone Number" %>
+      <%= f.text_field :phone, :class => "form-control" %>
+    </div>
+
+    <div class="form_group">
+      <%= f.label :description, "自我介紹" %>
+      <%= f.text_area :description, :class => "form-control" %>
+    </div>
+
+    <%= f.submit "Send" %>
+    <% end %>
+<% end %>

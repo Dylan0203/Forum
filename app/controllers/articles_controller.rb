@@ -10,7 +10,20 @@ class ArticlesController < ApplicationController
   end
 
   def index
-    @articles = Article.order("id DESC").page(params[:page]).per(5)
+    
+    if params[:keyword]
+      @articles = Article.where([ "topic like ?", "%#{params[:keyword]}%"])
+    else
+      @articles = Article.all
+    end
+
+    if params[:order]
+      sort_by = (params[:order] == 'tocic') ? 'topic' : 'created_at'
+      @articles = Article.order(sort_by)
+    end
+    
+
+      @articles = @articles.order("id DESC").page(params[:page]).per(5)
   end
 
   def new
@@ -29,6 +42,8 @@ class ArticlesController < ApplicationController
   end
 
   def show
+    @article.view = @article.view.to_i + 1
+    @article.save
     @page_title = @article.topic
     @comments = @article.comments
 
