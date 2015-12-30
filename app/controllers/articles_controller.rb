@@ -2,31 +2,27 @@ class ArticlesController < ApplicationController
 
   before_action :authenticate_user!, :except => [:index, :show]
 
-  before_action :set_article, :only => [ :show, :edit, :update, :destroy ]
+  before_action :set_article, :only => [ :show ]
+
+  before_action :set_my_article, :only => [:edit, :update, :destroy ]
 
   def about
-    
   end
-
 
   def index
     @articles = Article.order("id DESC").page(params[:page]).per(5)
-    #@articles = Article.all
   end
 
   def new
-  @article = Article.new
+    @article = Article.new
   end
 
   def create
-    #@article = Article.new(article_params)
-    #@article.user_id = current_user.id
-    
     @article = current_user.articles.new(article_params)
 
     if @article.save
-      redirect_to :action => :index
       flash[:notice] = "Article was successfully created"
+      redirect_to articles_path      
     else
       render :action => :new
     end
@@ -72,4 +68,13 @@ class ArticlesController < ApplicationController
   def article_params
     params.require(:article).permit(:topic, :content, :category_ids => [] )
   end
+
+  def set_my_article
+    @article = Article.find(params[:id])
+
+    unless @article.can_edit_by?(current_user)
+            redirect_to root_path
+    end
+  end
+
 end

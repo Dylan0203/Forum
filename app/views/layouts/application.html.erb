@@ -37,6 +37,7 @@
     <% end %>
         <% if current_user %>
         <li><%= link_to "Hi! #{current_user.display_name}" %></li>
+        <li><%= link_to "Profile", edit_profile_path( current_user ) %></li>
         <% end %>
     </ul>
     <%= yield %>

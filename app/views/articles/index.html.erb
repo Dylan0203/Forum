@@ -1,5 +1,5 @@
 <h1>首頁-文章列表</h1>
 
-<%=  render :partial => "articlelist", :locals => { :articles => @articles } %>
+<%=  render :partial => "list", :locals => { :articles => @articles } %>
 
 <p><%= link_to "Create New Topic", new_article_path, :class => "btn btn-primary" %></p>

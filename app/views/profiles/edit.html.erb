@@ -1,0 +1,28 @@
+<h1>Hi <%= current_user.display_name %></h1>
+
+
+<%= form_for @profile, :url => profile_path(@user) do |f| %>
+
+
+<div class="form_group">
+  <%= f.label :first_name, "名" %>
+  <%= f.text_field :first_name, :class => "form-control" %>
+</div>
+
+<div class="form_group">
+  <%= f.label :last_name, "姓" %>
+  <%= f.text_area :last_name, :class => "form-control" %>
+</div>
+
+<div class="form_group">
+  <%= f.label :description, "自我介紹" %>
+  <%= f.text_area :description, :class => "form-control" %>
+</div>
+
+<div class="form_group">
+  <%= f.label :phone, "Phone Number" %>
+  <%= f.text_area :phone, :class => "form-control" %>
+</div>
+
+
+<% end %>

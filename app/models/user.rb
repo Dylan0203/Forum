@@ -10,6 +10,18 @@ class User < ActiveRecord::Base
 
   has_many :comments
   has_many :articles
+  has_one :profile, :dependent => :destroy
+
+  def get_profile
+    if self.profile
+      return self.profile    
+    else
+      # p = Profile.new
+      # p.user = self
+      # p.save
+      return self.create_profile
+    end
+  end
 
   def get_fb_data
     j = RestClient.get "https://graph.facebook.com/v2.5/me", :params => { :access_token => self.fb_token, :fields => "id,name,email,picture" }
