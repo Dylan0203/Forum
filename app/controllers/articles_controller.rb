@@ -11,8 +11,15 @@ class ArticlesController < ApplicationController
 
   def index
 
-    if params[:keyword]
-      @articles = Article.where([ "topic like ?", "%#{params[:keyword]}%"])
+    if params[:keyword] || params[:category]
+      
+      if params[:category][:id].blank?
+        @articles = Article.where([ "topic like ?", "%#{params[:keyword]}%"])
+      else
+        @category = Category.find(params[:category][:id])
+        @articles = @category.articles
+        @articles = @articles.where([ "topic like ?", "%#{params[:keyword]}%"])
+      end
     else
       @articles = Article.all
     end
@@ -23,14 +30,14 @@ class ArticlesController < ApplicationController
       sort_by = 'id'
     end
     
-    if params[:category]
-      if params[:category][:id].blank?
-          redirect_to articles_path
-      else
-        @category = Category.find(params[:category][:id])
-        @articles = @category.articles
-      end
-    end
+#    if params[:category]
+#      if params[:category][:id].blank?
+#          redirect_to articles_path
+#      else
+#        @category = Category.find(params[:category][:id])
+#        @articles = @category.articles
+#      end
+#    end
 
       @articles = @articles.order(sort_by + " DESC").page(params[:page]).per(5)
   end
