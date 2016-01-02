@@ -1,24 +1,38 @@
+
+
+<table class="table">
+  <tr>
+    <td>
+      <%= link_to 'Sort by viewed', articles_path( topics_filter( :order => "view") ) %> /
+      <%= link_to 'Sort by comments', articles_path( topics_filter( :order => "comments_count") ) %> /
+      <%= link_to 'Sort by last comments', articles_path( topics_filter( :order => "last_comment_time") ) %> /
+      <%= link_to 'Sort by Name', articles_path( topics_filter( :order => "topic") ) %> / 
+      <%= link_to 'Sort by Default', articles_path %>
+    </td>
+    <td>
+      <%= form_tag articles_path, :method => :get do %>
+        <%= collection_select( :category, :id, Category.all, :id, :name,{:include_blank => '選擇文章類別or不分類'}) %>
+        <%= text_field_tag "keyword" %>
+        <%= submit_tag "Search" %>
+      <% end %>
+    </td>
+  </tr>
+</table>
+
 <table class="table table-striped">
-
-  <%= form_tag articles_path, :method => :get do %>
-  <%= text_field_tag "keyword" %>
-    <%= submit_tag "Search" %>
-  <% end %>
-  
-  <%= link_to 'Sort by Name', articles_path( :order => "topic") %>
-  <%= link_to 'Sort by Default', articles_path %>
-
   <tr>
     <th>文章標題</th>
     <th>發佈者</th>
     <th>文章點擊數</th>
+    <th>回覆數with cache</th>
     <th>回覆數</th>
-
-      <% if current_user %>
-    <th>操作</th>
+    <th>最後回覆時間</th>
+    <th>最後回覆時間with touch</th>
+    <% if current_user %>
+      <th>操作</th>
     <% else %>
-    <th></th>
-      <% end %>
+      <th></th>
+    <% end %>
   </tr>
   <% @articles.each do |a| %>
   <tr>
@@ -31,7 +45,9 @@
 
     <td><%= a.view %></td>
     <td><%= a.comments.size %></td>
-    
+    <td><%= a.comments_count %></td>
+    <td><%= a.comments.last.try(:updated_at).try(:to_s, :short) %></td>
+    <td><%= a.try(:last_comment_time).try(:to_s, :short) %></td>
     <td>
       <% if a.can_edit_by?(current_user) %>
     

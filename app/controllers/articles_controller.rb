@@ -10,20 +10,29 @@ class ArticlesController < ApplicationController
   end
 
   def index
-    
+
     if params[:keyword]
       @articles = Article.where([ "topic like ?", "%#{params[:keyword]}%"])
     else
       @articles = Article.all
     end
 
-    if params[:order]
-      sort_by = (params[:order] == 'tocic') ? 'topic' : 'created_at'
-      @articles = Article.order(sort_by)
+    if %w[topic comments_count last_comment_time view].include?(params[:order])
+      sort_by = (params[:order])
+    else
+      sort_by = 'id'
     end
     
+    if params[:category]
+      if params[:category][:id].blank?
+          redirect_to articles_path
+      else
+        @category = Category.find(params[:category][:id])
+        @articles = @category.articles
+      end
+    end
 
-      @articles = @articles.order("id DESC").page(params[:page]).per(5)
+      @articles = @articles.order(sort_by + " DESC").page(params[:page]).per(5)
   end
 
   def new
